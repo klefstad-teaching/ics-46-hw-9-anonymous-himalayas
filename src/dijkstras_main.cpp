@@ -5,7 +5,7 @@
 void test_dijsktras()
 {
     Graph G;
-    file_to_graph("graph.txt", G);
+    file_to_graph("small.txt", G);
     vector<int> previous;
     vector<int> distances = dijkstra_shortest_path(G, 0, previous);
     print_path(distances, 0);

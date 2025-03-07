@@ -60,29 +60,32 @@ vector<std::string> generate_word_ladder(const std::string& begin_word, const st
 
 end function
     */
-    std::queue<std::vector<std::string>> ladder_queue;
-    ladder_queue.push({begin_word});
-    std::set<std::string> visited;
-    visited.insert(begin_word);
-    while (!ladder_queue.empty()) {
-        std::vector<std::string> ladder = ladder_queue.front();
-        ladder_queue.pop();
-        std::string last_word = ladder.back();
+    std::queue<std::vector<std::string>> q;
+    std::map<std::string, std::string> previous;
+    q.push({begin_word});
+    while (!q.empty()) {
+        std::vector<std::string> current = q.front();
+        q.pop();
+        std::string last_word = current.back();
+        if (last_word == end_word) {
+            std::vector<std::string> result;
+            for (std::string word = end_word; word != begin_word; word = previous[word]) {
+                result.push_back(word);
+            }
+            result.push_back(begin_word);
+            reverse(result.begin(), result.end());
+            return result;
+        }
         for (const auto& word : word_list) {
-            if (is_adjacent(last_word, word)) {
-                if (visited.find(word) == visited.end()) {
-                    visited.insert(word);
-                    std::vector<std::string> new_ladder = ladder;
-                    new_ladder.push_back(word);
-                    if (word == end_word) {
-                        return new_ladder;
-                    }
-                    ladder_queue.push(new_ladder);
-                }
+            if (is_adjacent(last_word, word) && previous.find(word) == previous.end()) {
+                previous[word] = last_word;
+                std::vector<std::string> next = current;
+                next.push_back(word);
+                q.push(next);
             }
         }
     }
-    return {};
+    return {};  
 }
 
 void load_words(std::set<std::string>& word_list, const std::string& file_name) {
