@@ -8,10 +8,10 @@ void test_dijsktras()
     file_to_graph("src/small.txt", G);
     vector<int> previous;
     vector<int> distances = dijkstra_shortest_path(G, 0, previous);
-    for (int i = 0; i< previous.size(); i++) {
-        std::cout << previous[i] << " ";
-    }
-    vector<int> path = extract_shortest_path(distances, previous, 1);
+    // for (int i = 0; i< previous.size(); i++) {
+    //     std::cout << previous[i] << " ";
+    // }
+    vector<int> path = extract_shortest_path(distances, previous, 2);
     print_path(path, path.size());
 
 }
