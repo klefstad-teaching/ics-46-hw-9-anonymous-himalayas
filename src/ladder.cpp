@@ -21,71 +21,25 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 }
 
 vector<std::string> generate_word_ladder(const std::string& begin_word, const std::string& end_word, const std::set<std::string>& word_list) {
-    /*
-    function generate_word_ladder(begin_word, end_word, word_list):
-
-    ladder_queue = queue of vector of strings
-
-    ladder_queue.push([begin_word])
-
-    visited = set of strings
-
-    visited.insert(begin_word)
-
-    while ladder_queue is not empty:
-
-        ladder = ladder_queue.pop_front()
-
-        last_word = last element of ladder
-
-        for word in word_list:
-
-            if is_adjacent(last_word, word):
-
-                if word not in visited:
-
-                    visited.insert(word)
-
-                    new_ladder = copy of ladder
-
-                    new_ladder.push_back(word)
-
-                    if word equals end_word:
-
-                        return new_ladder
-
-                    ladder_queue.push(new_ladder)
-
-    return no ladder found
-
-end function
-    */
     std::queue<std::vector<std::string>> q;
-    std::map<std::string, std::string> previous;
-    q.push({begin_word});
+    std::vector<std::string> ladder = {begin_word};
+    q.push(ladder);
     while (!q.empty()) {
-        std::vector<std::string> current = q.front();
+        std::vector<std::string> current_ladder = q.front();
         q.pop();
-        std::string last_word = current.back();
-        if (last_word == end_word) {
-            std::vector<std::string> result;
-            for (std::string word = end_word; word != begin_word; word = previous[word]) {
-                result.push_back(word);
-            }
-            result.push_back(begin_word);
-            reverse(result.begin(), result.end());
-            return result;
+        std::string current_word = current_ladder.back();
+        if (current_word == end_word) {
+            return current_ladder;
         }
         for (const auto& word : word_list) {
-            if (is_adjacent(last_word, word) && previous.find(word) == previous.end()) {
-                previous[word] = last_word;
-                std::vector<std::string> next = current;
-                next.push_back(word);
-                q.push(next);
+            if (is_adjacent(current_word, word) && std::find(current_ladder.begin(), current_ladder.end(), word) == current_ladder.end()) {
+                std::vector<std::string> new_ladder = current_ladder;
+                new_ladder.push_back(word);
+                q.push(new_ladder);
             }
         }
     }
-    return {};  
+    return {};
 }
 
 void load_words(std::set<std::string>& word_list, const std::string& file_name) {
