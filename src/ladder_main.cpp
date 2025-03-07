@@ -10,6 +10,18 @@ void test_word_ladder()
     print_word_ladder(ladder);
 }
 
+void test_edit_distance() {
+    std::cout << edit_distance_within("hit", "hot", 1) << std::endl;
+    std::cout << edit_distance_within("hit", "hot", 2) << std::endl;
+    std::cout << edit_distance_within("hit", "hot", 3) << std::endl;
+}
+
+void test_adjacency() {
+    std::cout << is_adjacent("hit", "hot") << std::endl;
+    std::cout << is_adjacent("hit", "hat") << std::endl;
+    std::cout << is_adjacent("hit", "cat") << std::endl;
+}
+
 int main()
 {
     test_word_ladder();

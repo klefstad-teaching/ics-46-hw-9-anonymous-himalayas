@@ -7,13 +7,30 @@ void error(std::string word1, std::string word2, std::string msg) {
 }
 
 bool edit_distance_within(const std::string& str1, const std::string &str2, int d) {
-    int count = 0;
-    for (size_t i = 0; i < str1.size(); i++) {
-        if (str1[i] != str2[i]) {
-            count++;
+    // Be able to compare distances of strings that aren't the same length
+    int i = 0;
+    int j = 0;
+    int distance = 0;
+    while (i < str1.size() && j < str2.size()) {
+        if (str1[i] != str2[j]) {
+            distance++;
+            if (distance > d) {
+                return false;
+            }
+            if (str1.size() > str2.size()) {
+                i++;
+            } else if (str1.size() < str2.size()) {
+                j++;
+            } else {
+                i++;
+                j++;
+            }
+        } else {
+            i++;
+            j++;
         }
     }
-    return count <= d; 
+    return distance <= d;
 }
 
 bool is_adjacent(const std::string& word1, const std::string& word2) {
@@ -21,21 +38,24 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 }
 
 vector<std::string> generate_word_ladder(const std::string& begin_word, const std::string& end_word, const std::set<std::string>& word_list) {
-    std::queue<std::vector<std::string>> q;
-    std::vector<std::string> ladder = {begin_word};
-    q.push(ladder);
-    while (!q.empty()) {
-        std::vector<std::string> current_ladder = q.front();
-        q.pop();
-        std::string current_word = current_ladder.back();
-        if (current_word == end_word) {
-            return current_ladder;
-        }
+    std::queue<std::vector<std::string>> ladder_queue;
+    ladder_queue.push({begin_word});
+    std::set<std::string> visited;
+    visited.insert(begin_word);
+    while (!ladder_queue.empty()) {
+        std::vector<std::string> cur_word_list = ladder_queue.front();
+        ladder_queue.pop();
         for (const auto& word : word_list) {
-            if (is_adjacent(current_word, word) && std::find(current_ladder.begin(), current_ladder.end(), word) == current_ladder.end()) {
-                std::vector<std::string> new_ladder = current_ladder;
-                new_ladder.push_back(word);
-                q.push(new_ladder);
+            if (is_adjacent(cur_word_list.back(), word)) {
+                if (visited.find(word) == visited.end()) {
+                    visited.insert(word);
+                    std::vector<std::string> new_ladder = cur_word_list;
+                    new_ladder.push_back(word);
+                    if (word == end_word) {
+                        return new_ladder;
+                    }
+                    ladder_queue.push(new_ladder);
+                }
             }
         }
     }
