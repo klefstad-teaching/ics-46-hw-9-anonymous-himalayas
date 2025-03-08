@@ -5,7 +5,7 @@ void test_word_ladder()
 {
     set<string> word_list;
     load_words(word_list, "src/words.txt");
-    vector<string> ladder = generate_word_ladder("hit", "cog", word_list);
+    vector<string> ladder = generate_word_ladder("cat", "dog", word_list);
     // verify_word_ladder();
     print_word_ladder(ladder);
 }
@@ -17,13 +17,15 @@ void test_edit_distance() {
 }
 
 void test_adjacency() {
-    std::cout << is_adjacent("hit", "hot") << std::endl;
-    std::cout << is_adjacent("hit", "hat") << std::endl;
-    std::cout << is_adjacent("hit", "cat") << std::endl;
+    // std::cout << is_adjacent("hit", "hot") << std::endl;
+    // std::cout << is_adjacent("hit", "hat") << std::endl;
+    // std::cout << is_adjacent("hit", "cat") << std::endl;
+    std::cout << is_adjacent("apple", "app") << std::endl;
 }
 
 int main()
 {
+    // test_adjacency();
     test_word_ladder();
     return 0;
 }

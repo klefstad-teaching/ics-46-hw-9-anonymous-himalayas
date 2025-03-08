@@ -8,19 +8,22 @@ void error(std::string word1, std::string word2, std::string msg) {
 
 bool edit_distance_within(const std::string& str1, const std::string &str2, int d) {
     // Be able to compare distances of strings that aren't the same length
+    if (abs((int)str1.length() - (int)str2.length()) > d) {
+        return false;
+    }
+    int distance = 0;
     int i = 0;
     int j = 0;
-    int distance = 0;
-    while (i < str1.size() && j < str2.size()) {
+    while (i < str1.length() && j < str2.length()) {
         if (str1[i] != str2[j]) {
             distance++;
             if (distance > d) {
                 return false;
             }
-            if (str1.size() > str2.size()) {
-                i++;
-            } else if (str1.size() < str2.size()) {
+            if (str1.length() < str2.length()) {
                 j++;
+            } else if (str1.length() > str2.length()) {
+                i++;
             } else {
                 i++;
                 j++;
@@ -38,7 +41,24 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 }
 
 vector<std::string> generate_word_ladder(const std::string& begin_word, const std::string& end_word, const std::set<std::string>& word_list) {
-    
+    std::queue<std::vector<std::string>> q;
+    q.push({begin_word});
+    while (!q.empty()) {
+        std::vector<std::string> ladder = q.front();
+        q.pop();
+        std::string last_word = ladder.back();
+        if (last_word == end_word) {
+            return ladder;
+        }
+        for (const auto& word : word_list) {
+            if (is_adjacent(last_word, word) && std::find(ladder.begin(), ladder.end(), word) == ladder.end()) {
+                std::vector<std::string> new_ladder = ladder;
+                new_ladder.push_back(word);
+                q.push(new_ladder);
+            }
+        }
+    }
+    return {};
 }
 
 void load_words(std::set<std::string>& word_list, const std::string& file_name) {
