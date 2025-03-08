@@ -91,5 +91,6 @@ void print_path(const vector<int>& v, int total)
     for (const auto& i : v) {
         std::cout << i << " ";
     }
+    std::cout << std::endl;
     std::cout << "Total cost is " << total << std::endl;
 }
