@@ -38,26 +38,7 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 }
 
 vector<std::string> generate_word_ladder(const std::string& begin_word, const std::string& end_word, const std::set<std::string>& word_list) {
-    std::queue<std::vector<std::string>> q;
-    std::vector<std::string> ladder;
-    ladder.push_back(begin_word);
-    q.push(ladder);
-    while (!q.empty()) {
-        std::vector<std::string> current_ladder = q.front();
-        q.pop();
-        std::string current_word = current_ladder.back();
-        if (current_word == end_word) {
-            return current_ladder;
-        }
-        for (const auto& word : word_list) {
-            if (is_adjacent(current_word, word) && std::find(current_ladder.begin(), current_ladder.end(), word) == current_ladder.end()) {
-                std::vector<std::string> new_ladder = current_ladder;
-                new_ladder.push_back(word);
-                q.push(new_ladder);
-            }
-        }
-    }
-    return {};
+    
 }
 
 void load_words(std::set<std::string>& word_list, const std::string& file_name) {
