@@ -96,7 +96,7 @@ vector<std::string> generate_word_ladder(const std::string& begin_word, const st
             }
         }
     }
-    return vector<string> {"No words"};
+    return vector<string> {"No word ladder found."};
 }
 
 void load_words(std::set<std::string>& word_list, const std::string& file_name) {
