@@ -7,13 +7,6 @@ void error(std::string word1, std::string word2, std::string msg) {
 }
 
 bool edit_distance_within(const std::string& str1, const std::string &str2, int d) {
-    /*
-    Determining legal hops is done in the algorithm above by is_adjacent(), which returns true if two words are neighbors. 
-    A neighbor of a given word w is a word that differs by exactly 1 letter from w. 
-    Here for our implementation, differing by 1 letter means that one character in one word can not only be replaced, 
-    but also inserted or deleted to become the other word. For example, "date" and "data" are neighbors, 
-    but so are "chat" and "cheat".
-    */
     if (abs((int)str1.length() - (int)str2.length()) > d) {
         return false;
     }
@@ -46,7 +39,7 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 }
 
 std::set<std::string> adjacent_codes(const std::string& word) {
-    char fill = '_';
+    char fill = '~';
     std::set<std::string> codes;
     for (int i = 0; i < word.size(); i++) {
         std::string code = word;
@@ -58,7 +51,7 @@ std::set<std::string> adjacent_codes(const std::string& word) {
         code.insert(i, 1, fill);
         codes.insert(code);
     }
-    codes.insert(word + '_');
+    codes.insert(word + fill);
     return codes;
 }
 
