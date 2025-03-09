@@ -5,7 +5,8 @@ void test_word_ladder()
 {
     set<string> word_list;
     load_words(word_list, "src/words.txt");
-    vector<string> ladder = generate_word_ladder("cat", "dog", word_list);
+    vector<string> ladder = generate_word_ladder("sleep", "awake", word_list);
+    std::cout << ladder.size() << std::endl;
     // verify_word_ladder();
     print_word_ladder(ladder);
 }
