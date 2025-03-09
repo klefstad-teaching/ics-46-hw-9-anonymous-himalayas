@@ -38,20 +38,25 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
     return edit_distance_within(word1, word2, 1);
 }
 
-std::set<std::string> adjacent_codes(const std::string& word) {
-    char fill = '~';
-    std::set<std::string> codes;
-    for (int i = 0; i < word.size(); i++) {
-        std::string code = word;
-        code[i] = fill;
-        codes.insert(code);
-    }
-    for (int i = 0; i < word.size(); i++) {
+std::vector<std::string> adjacent_codes(const std::string& word) {
+    char fill = '_';
+    std::vector<std::string> codes;
+    for (int i = 1; i < word.size(); i++) {
         std::string code = word;
         code.insert(i, 1, fill);
-        codes.insert(code);
+        codes.push_back(code);
     }
-    codes.insert(word + fill);
+    for (int i = word.size() - 1; i > 0; i--) {
+        std::string code = word;
+        code[i] = fill;
+        codes.push_back(code);
+    }
+
+    std::string first = word;
+    first[0] = fill;
+    codes.push_back(first);
+    codes.push_back(word + fill);
+    codes.push_back(fill + word);
     return codes;
 }
 
