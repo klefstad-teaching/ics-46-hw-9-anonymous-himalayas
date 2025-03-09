@@ -48,15 +48,17 @@ bool is_adjacent(const std::string& word1, const std::string& word2) {
 std::set<std::string> adjacent_codes(const std::string& word) {
     char fill = '_';
     std::set<std::string> codes;
-    std::string pre_word = fill + word;
-    std::string post_word = word + fill;
-    codes.insert(pre_word);
     for (int i = 0; i < word.size(); i++) {
         std::string code = word;
         code[i] = fill;
         codes.insert(code);
     }
-    codes.insert(post_word);
+    for (int i = 0; i < word.size(); i++) {
+        std::string code = word;
+        code.insert(i, 1, fill);
+        codes.insert(code);
+    }
+    codes.insert(word + '_');
     return codes;
 }
 
